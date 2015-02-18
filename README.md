@@ -17,7 +17,7 @@ Uses descriptive activity names to name the activities in the data set
 Appropriately labels the data set with descriptive variable names. 
 From the data set in step 4, creates a second, independent tidy data set with the average of each variable for each activity and each subject.
 
-1. Merges the training and the test sets to create one data set.
+Step 1. Merges the training and the test sets to create one data set.
 
 First, read each of the "test" files.
 
@@ -39,14 +39,14 @@ Repeat for "train" files and then combine both "test" and "train" dataset into a
 
   data<-rbind(test, train)
 
-2. Extracts only the measurements on the mean and standard deviation for each measurement
+Step 2. Extracts only the measurements on the mean and standard deviation for each measurement
 
 The first line extracts the required data, while the next arranges them according to subject and activity (for readability).
 
   data_mean_sd<-data[,c(1,2,grep("std", colnames(data)), grep("mean", colnames(data)))]
   data_mean_sd<-arrange(data_mean_sd,subject,activity)
 
-3. Uses descriptive activity names to name the activities in the data set.
+Step 3. Uses descriptive activity names to name the activities in the data set.
 
 Use a brute force way to rename the "activity" column.
 
@@ -57,7 +57,7 @@ Use a brute force way to rename the "activity" column.
   data_mean_sd$activity[data_mean_sd$activity==5]<-"STANDING"
   data_mean_sd$activity[data_mean_sd$activity==6]<-"LAYING"
 
-4. Appropriately labels the data set with descriptive variable names.
+Step 4. Appropriately labels the data set with descriptive variable names.
 
 This has been done earlier first by reading the features from features.txt
 
@@ -67,7 +67,7 @@ And then renaming using this
 
   names(testx)<-features[,2]
 
-5. From the data set in step 4, creates a second, independent tidy data set with the average of each variable for each activity and each subject.
+Step 5. From the data set in step 4, creates a second, independent tidy data set with the average of each variable for each activity and each subject.
 
   write.table(final, 'final.txt', row.name=FALSE)
 
