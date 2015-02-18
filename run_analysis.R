@@ -1,7 +1,10 @@
 run_analysis <- function() {
 
+  library(plyr)
+  
   ## Read in features
   features <- read.csv("data/features.txt", header=FALSE, sep="")  
+  features_edit <- tolower(gsub("(\\(|\\)|\\-|\\,)","",features[,2]))
   
   ## Read test data and combine into a single data frame
   testsub <- read.csv("data/test/subject_test.txt", header=FALSE)
@@ -9,7 +12,7 @@ run_analysis <- function() {
   testy <- read.csv("data/test/y_test.txt", header=FALSE)
   names(testy)<-"activity"
   testx <- read.csv("data/test/X_test.txt", header=FALSE, sep="")
-  names(testx)<-features[,2]
+  names(testx)<-features_edit
   test<-cbind(testsub, testy, testx)
 
   ## Read training data and combine into a single data frame
@@ -18,7 +21,7 @@ run_analysis <- function() {
   trainy <- read.csv("data/train/y_train.txt", header=FALSE)
   names(trainy)<-"activity"
   trainx <- read.csv("data/train/X_train.txt", header=FALSE, sep="")
-  names(trainx)<-features[,2]
+  names(trainx)<-features_edit
   train<-cbind(trainsub, trainy, trainx)
   
   ## Combine test and training data
@@ -26,10 +29,8 @@ run_analysis <- function() {
   
   ## Extract mean and std data, followed by arranging by subject and activity
   data_mean_sd<-data[,c(1,2,grep("std", colnames(data)), grep("mean", colnames(data)))]
-  data_mean_sd<-arrange(data_mean_sd,subject,activity)
   
   ## Use descriptive activity names to name activities
-  activity <- read.csv("data/activity_labels.txt", header=FALSE, sep="")  
   data_mean_sd$activity[data_mean_sd$activity==1]<-"WALKING"  
   data_mean_sd$activity[data_mean_sd$activity==2]<-"WALKING_UPSTAIRS"
   data_mean_sd$activity[data_mean_sd$activity==3]<-"WALKING_DOWNSTAIRS"
@@ -40,5 +41,6 @@ run_analysis <- function() {
   ## Average each variable for each activity and each subject
   final <- ddply(data_mean_sd, .(subject, activity), .fun=function(x){colMeans(x[,-c(1:2)])})
   write.table(final, 'final.txt', row.name=FALSE)
+  View(final)
 }
 
