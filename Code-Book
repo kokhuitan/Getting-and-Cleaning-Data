@@ -1,6 +1,6 @@
 1	subject       1-30
 2	activity      WALKING, WALKING_UPSTAIRS, WALKING_DOWNSTAIRS, SITTING, STANDING, LAYING
-3	tbodyaccstdx  For columns 2 to 88, please refer to below notes
+3	tbodyaccstdx  For columns 3 to 88, please refer to below notes
 4	tbodyaccstdy
 5	tbodyaccstdz
 6	tgravityaccstdx
